@@ -1,0 +1,147 @@
+﻿@model List<School.Models.StudentsViewModel>
+@{
+    ViewBag.Title = "UserList";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <input type="text" placeholder="Search" />
+    </div>
+    <div class="col-md-6">
+        <input type="text" placeholder="Search" />
+    </div>
+</div>
+
+@if (Model.Count > 0)
+{
+
+    <input type="hidden" id="hdnPunchCount" value="10" name="lastItemcount" />
+    <h1>Students List</h1>
+    <div class="text-right col-row mar-t-10 pad-b-5" id="divTotalRecordCount">
+        Showing <strong><span id="spanlstCount">0</span></strong> out of <strong><span id="spanTotalListCount">0</span></strong> <span id="recordId">record</span>
+    </div>
+    <table class="table" id="tblStudents">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Class</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Marks</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+
+    </table>
+
+}
+else
+{
+    <div class="bs-callout bs-callout-info text-center mar-r-15 mar-l-15">
+        <i class="fa fa-folder-open" aria-hidden="true"></i>
+        <br>
+        No Recrods To Display
+    </div>
+}
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+        LoadMoreStudents();
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= ($(document).height() - $(window).height() - 10)) {
+                if (parseInt($("#spanTotalListCount").text()) > parseInt($("#spanlstCount").text())) {
+                    $("#btnLoadmore").show();
+                    LoadMoreStudents();
+                }
+            }
+        });
+        function LoadMoreStudents() {
+            var me = $(this);
+            if (me.data('requestRunning')) {
+                return;
+            }
+            me.data('requestRunning', true);
+            var recordCount = parseInt($("#spanlstCount").text());
+            $.ajax({
+                type: 'Post',
+                url: '/Home/LoadMoreStudentsList',
+                data: {
+                    recordCount: recordCount
+                },
+                beforeSend: function (xyz) {
+                    $("#Loader").show();
+                },
+                success: function (data, status, xhr) {
+                    var ct = xhr.getResponseHeader("content-type") || "";
+                    if (ct.indexOf('html') > -1 || data == "") {
+                        window.location = '/';
+                    }
+                    else {
+                        if (data.length > 0) {
+                            $("#spanTotalListCount").text(data[0].TotalRecords);
+                            var NewCurrentLstCount = parseInt(data.length) + parseInt($("#spanlstCount").text());
+                            $("#spanlstCount").text(NewCurrentLstCount);
+                            $(".wrapper").show();
+                            $("#divTotalRecordCount").show();
+                            $("#tblStudents").show();
+                            $("#tblStudents-sticky").show();
+                            $("#divExport").show();
+                            $("#divNoRecordFound").hide();
+                            for (var i = 0; i < data.length; i++) {
+                                var trHtml = "";
+                                if (data[i] != '') {
+                                    var id = data[i].Id;
+                                    trHtml += "<tr class='cursor'><td>"
+                                        + data[i].Id + "</td><td>"
+                                        + data[i].FirstName + "</td><td>"
+                                        + data[i].LastName + "</td><td>"
+                                        + data[i].SubjectName + "</td><td>"
+                                        + data[i].Marks + "</td><td>"
+                                        +
+                                            "<a href='Student/EditStudent/'" + data[i].Id + "> Edit </a>"
+                                            "<a href='Student/DeleteStudent/'" + data[i].Id + "> Delete </a>"
+                                        + "</td></tr>";
+                                    $(trHtml).appendTo("#tblStudents tbody");
+                                }
+                            }
+                            $("#tblStudents").trigger("update");
+                            if (data[0].TotalRecords == 1) {
+                                $("#recordId").text("record");
+                            }
+                            else {
+                                $("#recordId").text("records");
+                            }
+                            $("#btnLoadmore").hide();
+                        }
+                        else {
+                            $("#loading-pane").hide();
+                            $("#divTotalRecordCount").hide();
+                            $("#tblStudents").hide();
+                            $("#tblStudents-sticky").hide();
+                            $("#divExport").hide();
+                            $(".wrapper").hide();
+                            $("#divNoRecordFound").show();
+                            $("#btnLoadmore").hide();
+                        }
+                        $("#Loader").hide();
+                    }
+                },
+                error: function () {
+                    $("#btnLoadmore").hide();
+                    $("#Loader").hide();
+                },
+                complete: function () {
+                    IScrollReady = true;
+                    $("#tblStudents").trigger("update");
+                    me.data('requestRunning', false)
+                }
+            });
+        }
+    });
+</script>

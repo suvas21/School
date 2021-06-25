@@ -1,0 +1,79 @@
+﻿@model School.Models.Students
+@{
+    ViewBag.Title = "CreateStudent";
+}
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        <h4>Employee</h4>
+        <hr />
+
+        @Html.HiddenFor(model => model.StudentId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Class, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Class, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-group">
+                <label>Subjects</label>
+                <select id="subjects" multiple="multiple" class="form-control">
+                    <option value="1">English</option>
+                    <option value="2">Science</option>
+                    <option value="3">Maths</option>
+                    <option value="4">Social</option>
+                    <option value="5">Biology</option>
+                </select>
+                <input type="hidden" id="Subjects" name="Subjects" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Include the default stylesheet -->
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.css">
+<!-- Include plugin -->
+<script src="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.js"></script>
+
+<div>
+    @Html.ActionLink("Back to List", "index")
+</div>
+
+<script>
+    $(function () {
+        $('#subjects').change(function () {
+            $("#Subjects").val($(this).val())
+        }).multipleSelect({
+            width: '100%'
+        });
+    });
+</script>
