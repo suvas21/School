@@ -3,14 +3,12 @@
     ViewBag.Title = "CreateStudent";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(Html.BeginForm("CreateStudent", "Student", FormMethod.Post, new { id = "frmStudent", @class = "form-horizontal custom-validate-form", role = "form" })))
 {
 
     <div class="form-horizontal">
         <h4>Employee</h4>
         <hr />
-
-        @Html.HiddenFor(model => model.StudentId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })

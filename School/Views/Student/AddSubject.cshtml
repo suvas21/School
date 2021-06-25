@@ -1,0 +1,47 @@
+﻿@model School.Models.Course
+
+@{
+    ViewBag.Title = "AddSubject";
+
+    var subjectsList = ViewBag.SubjectsList;
+}
+
+<h2>AddSubject</h2>
+
+@using (Html.BeginForm("AddSubject", "Student", FormMethod.Post, new { id = "frmSubject", @class = "form-horizontal custom-validate-form", role = "form" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Course</h4>
+        <hr />
+        @Html.HiddenFor(model => model.StudentId)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubjectId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.SubjectId, subjectsList, "Select Subject ", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Marks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Marks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Marks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

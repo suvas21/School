@@ -60,10 +60,22 @@ namespace School.Common
 
         }
 
+        internal void AddSubject(Course course)
+        {
+            objDbContext.courses.Add(course);
+            objDbContext.SaveChanges();
+        }
+
         public Students GetStudent(int id)
         {
             var student = objDbContext.students.Find(id);
             return student;
+        }
+
+        public List<Subjects> GetSubjectsList()
+        {
+            var subjects = objDbContext.subjects.ToList();
+            return subjects;
         }
 
         public void UpdateStudent(Students student)
@@ -75,6 +87,13 @@ namespace School.Common
                 data.LastName = student.LastName;
                 data.Class = student.Class;
             }
+            objDbContext.SaveChanges();
+        }
+
+        public void DeleteStudent(int id)
+        {
+            var emp = objDbContext.students.Where(a => a.StudentId.Equals(id)).SingleOrDefault();
+            objDbContext.students.Remove(emp);
             objDbContext.SaveChanges();
         }
     }

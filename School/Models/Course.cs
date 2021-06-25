@@ -7,12 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace School.Models
 {
-    [Table("TblEmployee")]
+    [Table("TblCourse")]
     public class Course
     {
+        [Key]
+        public int Id { get; set; }
         public int StudentId { get; set; }
         public int SubjectId { get; set; }
-        public string SubjectName { get; set; }
         public decimal Marks { get; set; }
     }
 }

@@ -3,7 +3,7 @@
     ViewBag.Title = "EditStudent";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(Html.BeginForm("EditStudent", "Student", FormMethod.Post, new { id = "frmEditStudent", @class = "form-horizontal custom-validate-form", role = "form" })))
 {
 
     <div class="form-horizontal">

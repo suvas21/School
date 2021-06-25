@@ -36,23 +36,44 @@ namespace School.Controllers
         [HttpPost]
         public ActionResult CreateStudent(Students student)
         {
-            var studentId = objStudent.AddStudent(student);
-            ViewBag.StudentId = studentId;
-            return View();
+            objStudent.AddStudent(student);
+            return View("CreateStudent");
         }
         [HttpGet]
         public ActionResult EditStudent(int id)
         {
-            
             var student = objStudent.GetStudent(id);
             return View(student);
         }
         [HttpPost]
-        public ActionResult EditStudent(Students student)
+        public ActionResult EditStudent(Students students)
         {
-            
+            objStudent.UpdateStudent(students);
             return View();
         }
-
+        [HttpPost]
+        public ActionResult DeleteStudent(int id)
+        {
+            objStudent.DeleteStudent(id);
+            return RedirectToAction("index");
+        }
+        public ActionResult StudentDetail(int id)
+        {
+            var student = objStudent.GetStudent(id);
+            return View(student);
+        }
+        [HttpGet]
+        public ActionResult AddSubject(int studentId)
+        {
+            ViewBag.SubjectsList = objStudent.GetSubjectsList();
+            ViewBag.StudentId = studentId;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddSubject(Course course)
+        {
+            objStudent.AddSubject(course);
+            return RedirectToAction("StudentDetail");
+        }
     }
 }

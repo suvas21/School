@@ -7,7 +7,7 @@ using System.Web;
 
 namespace School.Models
 {
-    [Table("TblEmployee")]
+    [Table("TblSubjects")]
     public class Subjects
     {
         [Key]

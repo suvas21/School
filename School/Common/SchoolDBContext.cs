@@ -14,7 +14,7 @@ namespace School.Common
         {
         }
         public DbSet<Students> students { get; set; }
-        public DbSet<Students> subjects { get; set; }
-        public DbSet<Students> courses { get; set; }
+        public DbSet<Subjects> subjects { get; set; }
+        public DbSet<Course> courses { get; set; }
     }
 }
