@@ -20,12 +20,13 @@ namespace School.Common
             con = new SqlConnection(constr);
 
         }
-        public List<StudentsViewModel> GetStudentsList(int rowCount, int rowPerPage)
+        public List<StudentsViewModel> GetStudentsList(string searchValue,int rowCount, int rowPerPage)
         {
             connection();
             List<StudentsViewModel> studentsList = new List<StudentsViewModel>();
-            SqlCommand com = new SqlCommand("proc_GetEmloyeesList", con);
+            SqlCommand com = new SqlCommand("proc_GetStudentsList", con);
             com.CommandType = CommandType.StoredProcedure;
+            com.Parameters.AddWithValue("@searchValue", searchValue);
             com.Parameters.AddWithValue("@rowCount", rowCount);
             com.Parameters.AddWithValue("@rowPerPage", rowPerPage);
             SqlDataAdapter da = new SqlDataAdapter(com);

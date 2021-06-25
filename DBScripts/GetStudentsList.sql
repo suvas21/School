@@ -23,7 +23,12 @@ BEGIN
   FROM Students std
   INNER JOIN Course c on c.StudentId = std.StudentId
   INNER JOIN Subjects s on s.StudentId = c.StudentId
-	
+  WHERE (ISNULL(@searchValue,'') 
+	OR std.FirstName LIKE @searchValue
+	OR std.LastName LIKE @searchValue
+	OR std.Class LIKE @searchValue
+	OR s.SubjectName LIKE @searchValue
+)
   ORDER BY Id DESC OFFSET @rowCount ROWS
 	FETCH NEXT @rowPerPage ROWS ONLY;
 

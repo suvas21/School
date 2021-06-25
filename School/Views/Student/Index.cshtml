@@ -5,10 +5,10 @@
 
 <div class="row">
     <div class="col-md-6">
-        <input type="text" placeholder="Search" />
+        <input type="text" placeholder="Search" id="txtSearchValue" />
     </div>
     <div class="col-md-6">
-        <input type="text" placeholder="Search" />
+        <input type="button" id="btnSearch" value="Search"/>
     </div>
 </div>
 
@@ -53,6 +53,11 @@ else
 <script>
     $(function () {
         LoadMoreStudents();
+
+        $("#btnSearch").click(function () {
+            LoadMoreStudents();
+        })
+
         $(window).scroll(function () {
             if ($(window).scrollTop() >= ($(document).height() - $(window).height() - 10)) {
                 if (parseInt($("#spanTotalListCount").text()) > parseInt($("#spanlstCount").text())) {
@@ -68,11 +73,12 @@ else
             }
             me.data('requestRunning', true);
             var recordCount = parseInt($("#spanlstCount").text());
+            var searchValue = $("#txtSearchValue").val();
             $.ajax({
                 type: 'Post',
-                url: '/Home/LoadMoreStudentsList',
+                url: '/Student/LoadMoreStudentsList',
                 data: {
-                    recordCount: recordCount
+                    recordCount: recordCount, searchValue: searchValue
                 },
                 beforeSend: function (xyz) {
                     $("#Loader").show();

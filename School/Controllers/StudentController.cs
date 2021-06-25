@@ -15,16 +15,16 @@ namespace School.Controllers
         public ActionResult Index()
         {
             int rowPerPage = 10;
-            var studentsList = objStudent.GetStudentsList(0, rowPerPage);
+            var studentsList = objStudent.GetStudentsList('',0, rowPerPage);
             ViewBag.RowCount = studentsList.Count();
             return View(studentsList);
         }
 
-        public ActionResult LoadMoreStudentsList(int recordCount = 0)
+        public ActionResult LoadMoreStudentsList(string searchValue, int recordCount = 0)
         {
             clsStudents objStudent = new clsStudents();
             int rowPerPage = 15;
-            var studentsList = objStudent.GetStudentsList(recordCount, rowPerPage);
+            var studentsList = objStudent.GetStudentsList(searchValue, recordCount, rowPerPage);
             ViewBag.RowCount = studentsList.Count();
             return Json(studentsList, JsonRequestBehavior.AllowGet);
         }
