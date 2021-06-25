@@ -15,7 +15,7 @@ namespace School.Controllers
         public ActionResult Index()
         {
             int rowPerPage = 10;
-            var studentsList = objStudent.GetStudentsList('',0, rowPerPage);
+            var studentsList = objStudent.GetStudentsList("",0, rowPerPage);
             ViewBag.RowCount = studentsList.Count();
             return View(studentsList);
         }
