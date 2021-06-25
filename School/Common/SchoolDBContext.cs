@@ -10,7 +10,7 @@ namespace School.Common
     public class SchoolDBContext: DbContext
     {
         public SchoolDBContext()
-            : base("name=MySqlConnection")
+            : base("name=StudentdbContext")
         {
         }
         public DbSet<Students> students { get; set; }
